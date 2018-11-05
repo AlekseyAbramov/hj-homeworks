@@ -8,6 +8,8 @@ const sound = {
 };
 
 function changeSound(type) {
+    ul.classList.remove('middle', 'lower', 'higher');
+    ul.classList.add(type);
     let i = 0;
     for (const key of keySounds) {
         key.src = sound[type][i];
@@ -17,6 +19,8 @@ function changeSound(type) {
 changeSound('middle');
 
 function play() {
+    this.getElementsByTagName('audio')[0].pause();
+    this.getElementsByTagName('audio')[0].currentTime = 0;
     this.getElementsByTagName('audio')[0].play();
 }
 for (const key of keys) {
@@ -33,7 +37,9 @@ function changeTone(event) {
         changeSound('lower');
         return;
     }
-    changeSound('middle');
+    if (!ul.classList.contains('middle')) {
+        changeSound('middle');
+    }
 }
 document.addEventListener('keydown', changeTone);
 document.addEventListener('keyup', changeTone);
