@@ -5,7 +5,7 @@ function contact() {
     list = document.querySelector('ul.contacts-list');
     el.parentNode.removeChild(el);
     contacts.forEach(element => {
-        const elem = list.appendChild(el.cloneNode(true));
+        const elem = list.appendChild(el.cloneNode(false));
         elem.dataset.email = element.email;
         elem.dataset.phone = element.phone;
         elem.innerHTML = '<strong>' + element.name + '</strong>';
