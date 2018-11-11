@@ -5,13 +5,11 @@ const checks = todoList.getElementsByTagName('input');
 
 function goDone(event) {
   const label = event.target.parentElement;
-  label.parentNode.removeChild(label);
   done.appendChild(label);
 }
 
 function goUndone(event) {
   const label = event.target.parentElement;
-  label.parentNode.removeChild(label);
   undone.appendChild(label);
 }
 
