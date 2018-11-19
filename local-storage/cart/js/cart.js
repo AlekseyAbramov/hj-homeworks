@@ -90,7 +90,7 @@ addToCartButton.addEventListener('click', (event) => {
     //console.log(formData);
     data.append('productId', addToCartForm.dataset.productId);
     console.log(data);
-    fetch('https://neto-api.herokuapp.com/signup', {
+    fetch('https://neto-api.herokuapp.com/cart', {
         method: 'POST',
         body: data,
     }).then(function(response) {
