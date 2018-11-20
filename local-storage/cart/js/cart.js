@@ -35,7 +35,7 @@ function getData(url) {
 
 function getColor(colors) {
     for (const color of colors) {
-        colorSwatch.innerHTML += `<div data-value="${color.type}" class="swatch-element color ${color.type} 
+        colorSwatch.innerHTML += `<div data-value="${color.type}" class="swatch-element color ${color.type}
             ${color.isAvailable ? 'available' : 'soldout'}">
             <div class="tooltip">${color.title}</div>
             <input quickbeam="color" id="swatch-1-${color.type}" type="radio" name="color" value="${color.type}" checked>
@@ -49,9 +49,9 @@ function getColor(colors) {
 
 function getSize(sizes) {
     for (const size of sizes) {
-        sizeSwatch.innerHTML += `<div data-value="${size.type}" class="swatch-element plain ${size.type} 
+        sizeSwatch.innerHTML += `<div data-value="${size.type}" class="swatch-element plain ${size.type}
             ${size.isAvailable ? 'available' : 'soldout'}">
-            <input id="swatch-0-${size.type}" type="radio" name="size" value="${size.type}" 
+            <input id="swatch-0-${size.type}" type="radio" name="size" value="${size.type}"
             ${size.isAvailable ? '' : 'disabled'}>
             <label for="swatch-0-${size.type}">
                 ${size.title}
@@ -62,7 +62,7 @@ function getSize(sizes) {
 }
 
 function getProduct(product) {
-    quickCart.innerHTML += `<div class="quick-cart-product quick-cart-product-static" id="quick-cart-product-${product.id}" style="opacity: 1;">
+    quickCart.innerHTML = `<div class="quick-cart-product quick-cart-product-static" id="quick-cart-product-${product.id}" style="opacity: 1;">
     <div class="quick-cart-product-wrap">
       <img src="${product.pic}" title="${product.title}">
       <span class="s1" style="background-color: #000; opacity: .5">$${product.price}</span>
@@ -84,19 +84,14 @@ function getCart(product) {
 
 addToCartButton.addEventListener('click', (event) => {
     event.preventDefault();
-    const id = String(addToCartForm.dataset.productId);
-    console.log(id);
     const data = new FormData(addToCartForm);
-    //console.log(formData);
     data.append('productId', addToCartForm.dataset.productId);
-    console.log(data);
     fetch('https://neto-api.herokuapp.com/cart', {
         method: 'POST',
         body: data,
     }).then(function(response) {
         return response.json()
     }).then(cart => {
-        console.log(cart);
         if (cart.length !== 0) {
             for (const product of cart) {
                 getProduct(product);
@@ -106,4 +101,26 @@ addToCartButton.addEventListener('click', (event) => {
     })
     .catch(e => console.log(e));
 });
-//quickCart.addEventListener('click', removeFromCart);
+
+quickCart.addEventListener('click', (event) => {
+  event.preventDefault();
+  const data = new FormData(addToCartForm);
+  data.append('productId', addToCartForm.dataset.productId);
+  fetch('https://neto-api.herokuapp.com/cart/remove', {
+      method: 'POST',
+      body: data,
+  }).then(function(response) {
+      return response.json()
+  }).then(cart => {
+      if (cart.length !== 0) {
+          for (const product of cart) {
+              getProduct(product);
+              getCart(product);
+          }
+      }
+      if (cart.length === 0) {
+        quickCart.innerHTML = '';
+      }
+  })
+  .catch(e => console.log(e));
+});
