@@ -7,7 +7,7 @@ const contentBlock = content.children;
 menuLi.parentNode.removeChild(menuLi);
 getMenu();
 contentBlock[0].classList.remove('hidden');
-contentBlock[0].classList.add('ui-tabs-active');
+menu.children[0].classList.add('ui-tabs-active');
 
 function getMenu() {
     for (let block of contentBlock) {
@@ -21,6 +21,11 @@ function getMenu() {
 for (let link of menu.children) {
     link.addEventListener('click', (event) => {
         event.preventDefault();
+        console.log(event);
+        for (let li of menu.children) {
+          li.classList.remove('ui-tabs-active');
+        }
+        event.target.parentElement.classList.add('ui-tabs-active');
         for (let block of contentBlock) {
             block.classList.remove('ui-tabs-active');
             block.classList.add('hidden');
