@@ -31,30 +31,22 @@ function Slider(container) {
             currentSlide.classList.remove('slide-current');
             if (event.target.dataset.action === 'next') {
               const activatedSlide = currentSlide.nextElementSibling;
-              getClass(activatedSlide);
+              changeSlide(activatedSlide);
             }
             if (event.target.dataset.action === 'prev') {
               const activatedSlide = currentSlide.previousElementSibling;
-              getClass(activatedSlide);
+              changeSlide(activatedSlide);
             }
             if (event.target.dataset.action === 'first') {
-                firstSlide.classList.add('slide-current');
-                prev.classList.add('disabled');
-                first.classList.add('disabled');
-                next.classList.remove('disabled');
-                last.classList.remove('disabled');
+                changeSlide(firstSlide);
             }
             if (event.target.dataset.action === 'last') {
-                lastSlide.classList.add('slide-current');
-                prev.classList.remove('disabled');
-                first.classList.remove('disabled');
-                next.classList.add('disabled');
-                last.classList.add('disabled');
+                changeSlide(lastSlide);
             }
           }
         }
 
-      function getClass(activatedSlide) {
+      function changeSlide(activatedSlide) {
         activatedSlide.classList.add('slide-current');
         activatedSlide.nextElementSibling ? next.classList.remove('disabled') : next.classList.add('disabled');
         activatedSlide.nextElementSibling ? last.classList.remove('disabled') : last.classList.add('disabled');

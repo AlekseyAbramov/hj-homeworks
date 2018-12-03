@@ -5,7 +5,7 @@ const checks = todoList.getElementsByTagName('input');
 
 for (let check of checks) {
   check.addEventListener('input', (event) => {
-    if (event.target.parentElement.parentElement.classList.contains('done')) {
+    if (event.target.checked) {
       undone.appendChild(event.target.parentElement);
     } else {
       done.appendChild(event.target.parentElement);
