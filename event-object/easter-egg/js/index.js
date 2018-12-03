@@ -1,6 +1,6 @@
 const nav = document.getElementsByTagName('nav')[0];
 const secret = document.getElementsByClassName('secret')[0];
-const secretWord = 'KeyYKeyTKeyNKeyJKeyKKeyJKeyUKeyBKeyZ';
+const secretWord = ['KeyY', 'KeyT', 'KeyN', 'KeyJ', 'KeyK', 'KeyJ', 'KeyU', 'KeyB', 'KeyZ'];
 
 function showNav(event) {
     if (event.ctrlKey && event.altKey && event.code === 'KeyT') {
@@ -9,17 +9,19 @@ function showNav(event) {
 }
 document.addEventListener('keydown', showNav);
 
-let word = '';
+let i = 0;
 function netology(event) {
     if (event.ctrlKey || event.altKey) {
         return;
     }
-    word = word + event.code;
-    if (word === secretWord) {
-        secret.classList.add('visible');
+    if (event.code === secretWord[i]) {
+      i++;
+    } else {
+      i = 0;
+      return;
     }
-    if (word.length === secretWord.length) {
-        word ='';
+    if (i === secretWord.length) {
+        secret.classList.add('visible');
     }
 }
 document.addEventListener('keydown', netology);
