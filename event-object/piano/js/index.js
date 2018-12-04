@@ -18,27 +18,30 @@ function changeSound(type) {
 }
 changeSound('middle');
 
-function play() {
-    this.getElementsByTagName('audio')[0].pause();
-    this.getElementsByTagName('audio')[0].currentTime = 0;
-    this.getElementsByTagName('audio')[0].play();
+function play(event) {
+  console.log(event.target.getElementsByTagName('audio')[0]);
+    event.target.getElementsByTagName('audio')[0].pause();
+    event.target.getElementsByTagName('audio')[0].currentTime = 0;
+    event.target.getElementsByTagName('audio')[0].play();
 }
+
 for (const key of keys) {
     key.addEventListener('click', play);
 }
 
 function changeTone(event) {
-    if (event.altKey && !event.repeat) {
+    if (event.altKey) {
         changeSound('higher');
         return;
     }
 
-    if (event.shiftKey && !event.repeat) {
+    if (event.shiftKey) {
         changeSound('lower');
         return;
     }
     if (!ul.classList.contains('middle')) {
         changeSound('middle');
+        console.log('middle');
     }
 }
 document.addEventListener('keydown', changeTone);
