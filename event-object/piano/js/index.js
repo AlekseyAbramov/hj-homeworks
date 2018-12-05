@@ -19,7 +19,6 @@ function changeSound(type) {
 changeSound('middle');
 
 function play(event) {
-  console.log(event.target.getElementsByTagName('audio')[0]);
     event.target.getElementsByTagName('audio')[0].pause();
     event.target.getElementsByTagName('audio')[0].currentTime = 0;
     event.target.getElementsByTagName('audio')[0].play();
@@ -30,18 +29,17 @@ for (const key of keys) {
 }
 
 function changeTone(event) {
-    if (event.altKey) {
+    if (event.altKey && !event.repeat) {
         changeSound('higher');
         return;
     }
 
-    if (event.shiftKey) {
+    if (event.shiftKey && !event.repeat) {
         changeSound('lower');
         return;
     }
-    if (!ul.classList.contains('middle')) {
+    if (!event.altKey && !event.shiftKey && !ul.classList.contains('middle')) {
         changeSound('middle');
-        console.log('middle');
     }
 }
 document.addEventListener('keydown', changeTone);
