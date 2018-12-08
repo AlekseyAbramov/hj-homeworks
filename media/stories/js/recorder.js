@@ -36,11 +36,37 @@ function createThumbnail(video) {
   });
 }
 
+
 function record(app) {
   return new Promise((done, fail) => {
+
     app.mode = 'preparing';
-    setTimeout(() => {
-      fail('Не удалось записать видео');
-    }, app.limit);
+
+    navigator.mediaDevices.getUserMedia(app.config)
+      .then(function(stream) {
+        app.preview.srcObject = stream;
+        app.mode = 'recording';
+      	let recorder = new MediaRecorder(stream);
+      	let chunks = [];
+      	recorder.addEventListener('dataavailable', (e) => chunks.push(e.data));
+      	recorder.addEventListener('stop', (e) => {
+      		app.preview.srcObject = null;
+        	const recorded = new Blob(chunks, { 'type' : recorder.mimeType });
+        	chunks = null;
+  			  stream.getVideoTracks().map(track => track.stop());
+        	recorder = stream = null;
+          return createThumbnail(recorded)
+            .then((thumb) => done({video: recorded, frame: thumb}));
+      	});
+
+      	setTimeout(() => {
+      		recorder.start(1000);
+	      	setTimeout(() => {
+	      		recorder.stop();
+	      	}, app.limit);
+      	}, 1000);
+      	
+      })
+      .catch(fail);
   });
 }
